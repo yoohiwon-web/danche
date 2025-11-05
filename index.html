@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>메가박스 덕천점 | 재방문 이벤트 안내</title>
+  <meta name="description" content="메가박스 덕천점 단체/대관 재방문 이벤트 – QR 확인 및 다운로드 페이지" />
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #121826;
+      --muted: #94a3b8;
+      --text: #e5e7eb;
+      --accent: #7c3aed;
+      --accent-2: #22d3ee;
+      --radius: 18px;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: radial-gradient(1200px 600px at 10% 0%, rgba(124,58,237,.18), transparent),
+                  radial-gradient(1000px 500px at 90% 30%, rgba(34,211,238,.10), transparent),
+                  var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Helvetica, Arial, Apple SD Gothic Neo, "맑은 고딕", sans-serif;
+      display: grid; place-items: center; padding: 24px;
+    }
+    .card { width: 100%; max-width: 680px; background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+            border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .header { padding: 28px 28px 16px; display: flex; gap: 14px; align-items: center; }
+    .logo { width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            display: grid; place-items: center; font-weight: 800; color: white; letter-spacing: .5px; }
+    .hgroup { line-height: 1.15; }
+    .title { font-size: 20px; font-weight: 700; }
+
+    .content { padding: 0 28px 24px; display: grid; gap: 18px; }
+
+    .helper { color: var(--muted); font-size: 13px; }
+
+    .deadline { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px dashed rgba(245,158,11,.5); background: rgba(245,158,11,.08); color: #fde68a; padding: 12px 14px; border-radius: 12px; font-size: 14px; }
+
+    .qrbox { display: grid; gap: 12px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 16px; }
+    .qrbox img { width: 240px; height: 240px; object-fit: contain; margin: 0 auto; background: white; border-radius: 12px; padding: 8px; }
+
+    .steps { display: grid; gap: 8px; font-size: 14px; color: #cbd5e1; }
+    .steps li { display: grid; grid-template-columns: 24px 1fr; gap: 8px; align-items: start; }
+    .steps .num { width: 24px; height: 24px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: 6px; display: grid; place-items: center; font-size: 12px; color: #e2e8f0; }
+
+    .terms { font-size: 12px; color: #9aa7b5; line-height: 1.6; }
+    .footer { padding: 16px 28px 28px; display: grid; gap: 6px; color: #a8b3c5; font-size: 13px; }
+    .small { font-size: 12px; color: #8c99ab; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    .center { text-align: center; }
+    a.link { color: #a78bfa; text-decoration: underline; text-underline-offset: 3px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 48px; border: 0; border-radius: 12px; cursor: pointer; background: linear-gradient(135deg, var(--accent), #4f46e5); color: white; font-weight: 700; font-size: 16px; letter-spacing: .2px; transition: transform .08s ease, filter .2s ease; }
+    .btn:hover { filter: brightness(1.05); }
+    .btn:active { transform: translateY(1px); }
+  </style>
+</head>
+<body>
+  <main class="card" id="app"
+        data-default-deadline="2025-12-31T23:59:00+09:00"
+        data-default-contact="메가박스 덕천점 7층 매점"
+        data-default-qr="https://yoohiwon-web.github.io/-/DC-251107-BUKGUJH_QR.png">
+    <header class="header">
+      <div class="logo" aria-hidden="true">MX</div>
+      <div class="hgroup">
+        <div class="title" id="pageTitle">재방문 이벤트 안내</div>
+      </div>
+    </header>
+
+    <section class="content">
+      <section class="qrbox" id="qrBox">
+        <img id="qrImg" alt="이벤트 QR 이미지" />
+        <button class="btn" id="qrDownloadBtn" type="button" disabled>QR 다운로드하기</button>
+        <div class="helper" id="qrHelper">QR 이미지가 보이지 않으면 링크가 정확한지 확인해주세요.</div>
+      </section>
+
+      <div class="deadline" id="deadlineBox">
+        <div><span id="deadlineLabel">쿠폰 사용기간</span>: <strong id="deadlineText">2025년 12월 31일(수) 23:59</strong></div>
+        <div id="countdown" class="mono"></div>
+      </div>
+
+      <ol class="steps" id="steps">
+        <li><span class="num">1</span><span>아래 <strong>QR 이미지</strong>를 저장(또는 캡처)합니다.</span></li>
+        <li><span class="num">2</span><span>메가박스 덕천점 <strong>7층 매점</strong> 방문 후, 저장한 이미지를 직원에게 보여주세요.</span></li>
+        <li><span class="num">3</span><span>필요 시 학교명/단체명 확인을 위해 간단한 확인 절차가 있을 수 있습니다.</span></li>
+      </ol>
+
+      <section class="terms" id="terms">
+        ※ 본 쿠폰은 단체/대관 이벤트 쿠폰이며, 양도·판매가 불가합니다. 기한 경과 시 사용이 제한됩니다.<br/>
+        ※ 운영 정책 및 현장 상황에 따라 사용이 제한되거나 변동될 수 있습니다.
+      </section>
+    </section>
+
+    <footer class="footer">
+      <div>문의: <span id="contactText">메가박스 덕천점 7층 매점</span></div>
+      <div class="small">본 페이지는 메가박스 덕천점 이벤트 당첨자 안내를 위해 제공됩니다.</div>
+      <div class="small">© Megabox Deokcheon. All rights reserved.</div>
+    </footer>
+  </main>
+
+  <script>
+    // ===== 유틸 =====
+    const qs = (s, el=document) => el.querySelector(s);
+    const fmtDate = (d) => new Intl.DateTimeFormat('ko-KR', { dateStyle: 'long', timeStyle: 'short' }).format(d);
+    const params = new URLSearchParams(location.search);
+
+    const app = qs('#app');
+    const defaultDeadline = app.getAttribute('data-default-deadline');
+    const defaultContact = app.getAttribute('data-default-contact');
+    const defaultQr = app.getAttribute('data-default-qr');
+
+    // 커스터마이즈 파라미터
+    const titleParam = params.get('title');
+    const helper = params.get('helper');
+    const labelDeadline = params.get('label_deadline');
+    const hideCountdown = params.get('hide_countdown') === '1';
+    const accent = params.get('accent');
+    const qrParam = params.get('qr');
+    const qrUrl = (qrParam ? decodeURIComponent(qrParam) : defaultQr) || '';
+
+    // ===== 스타일 동적 반영 =====
+    if (accent) {
+      document.documentElement.style.setProperty('--accent', accent);
+    }
+
+    // ===== 내용 반영 =====
+    if (titleParam) qs('#pageTitle').textContent = titleParam;
+    if (helper) qs('#helperText')?.textContent = helper;
+    if (labelDeadline) qs('#deadlineLabel').textContent = labelDeadline;
+
+    qs('#contactText').textContent = defaultContact;
+
+    const deadlineTextEl = qs('#deadlineText');
+    const deadlineBox = qs('#deadlineBox');
+    const countdownEl = qs('#countdown');
+    const deadlineStr = params.get('deadline') || defaultDeadline;
+    const deadline = deadlineStr ? new Date(deadlineStr) : null;
+
+    if (deadline) {
+      deadlineTextEl.textContent = fmtDate(deadline);
+    } else {
+      deadlineBox.style.display = 'none';
+    }
+
+    // ===== QR 미리보기 + 다운로드 =====
+    const qrImg = qs('#qrImg');
+    const qrDownloadBtn = qs('#qrDownloadBtn');
+    const qrHelper = qs('#qrHelper');
+
+    function setQR(src) {
+      if (!src) {
+        qrImg.removeAttribute('src');
+        qrDownloadBtn.disabled = true;
+        qrHelper.textContent = 'QR 이미지 링크가 없습니다. URL에 ?qr=이미지주소 를 붙여주세요.';
+        return;
+      }
+      qrImg.onload = () => {
+        qrDownloadBtn.disabled = false;
+        qrHelper.textContent = 'QR 이미지를 길게 눌러 저장하거나, 아래 버튼으로 다운로드하세요.';
+      };
+      qrImg.onerror = () => {
+        qrDownloadBtn.disabled = true;
+        qrHelper.textContent = 'QR 이미지를 불러오지 못했습니다. 주소를 확인 후 다시 시도해주세요.';
+      };
+      // 캐시 무효화를 위해 쿼리스트링 추가
+      const bust = src.includes('?') ? '&' : '?';
+      qrImg.src = src + bust + 'v=' + Date.now();
+    }
+
+    function downloadQR() {
+      const src = qrImg.getAttribute('src');
+      if (!src) {
+        alert('QR 이미지 링크가 없습니다.');
+        return;
+      }
+      const a = document.createElement('a');
+      a.href = src;
+      a.download = 'qr.png';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+    qrDownloadBtn.addEventListener('click', downloadQR);
+
+    // 초기 세팅: 파라미터 우선, 없으면 default-qr 사용
+    setQR(qrUrl);
+
+    // ===== 카운트다운 =====
+    function tick() {
+      if (!deadline || hideCountdown) {
+        if (hideCountdown) countdownEl.style.display = 'none';
+        return;
+      }
+      const now = new Date();
+      const ms = deadline - now;
+      if (ms <= 0) {
+        countdownEl.textContent = '만료됨';
+        return;
+      }
+      const sec = Math.floor(ms/1000);
+      const d = Math.floor(sec/86400);
+      const h = Math.floor((sec%86400)/3600);
+      const m = Math.floor((sec%3600)/60);
+      const s = sec%60;
+      countdownEl.textContent = `D-${d} · ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      requestAnimationFrame(() => setTimeout(tick, 1000));
+    }
+    tick();
+  </script>
+</body>
+</html>
