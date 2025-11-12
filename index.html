@@ -10,17 +10,26 @@
   <style>
     :root{--bg:#0b0f14;--card:#121826;--text:#e5e7eb;--muted:#94a3b8;--accent:#7c3aed}
     html,body{height:100%}
-    body{margin:0;background:radial-gradient(1200px 600px at 10% 0%,rgba(124,58,237,.18),transparent),radial-gradient(1000px 500px at 90% 30%,rgba(34,211,238,.10),transparent),var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Noto Sans KR,Helvetica,Arial,"Apple SD Gothic Neo","맑은 고딕",sans-serif;display:grid;place-items:center;padding:24px}
-    .card{width:100%;max-width:680px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.35);overflow:hidden}
-    .header{padding:24px 24px 12px;font-weight:700;font-size:18px}
+    body{
+      margin:0;
+      background:radial-gradient(1200px 600px at 10% 0%,rgba(124,58,237,.18),transparent),
+                 radial-gradient(1000px 500px at 90% 30%,rgba(34,211,238,.10),transparent),
+                 var(--bg);
+      color:var(--text);
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Noto Sans KR,Helvetica,Arial,"Apple SD Gothic Neo","맑은 고딕",sans-serif;
+      display:grid;place-items:center;padding:24px
+    }
+    .card{width:100%;max-width:680px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.35);overflow:hidden}
+    .header{padding:24px 24px 12px;font-weight:700;font-size:18px;text-align:center}
     .content{padding:0 24px 24px;display:grid;gap:16px}
-    .qr{display:grid;place-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:16px}
+    .qr{display:grid;place-items:center;background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:16px}
     .qr img{width:260px;height:260px;object-fit:contain;background:#fff;border-radius:12px;padding:8px}
-    .btn{display:inline-flex;align-items:center;justify-content:center;width:100%;height:48px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--accent),#4f46e5);color:#fff;font-weight:700;cursor:pointer}
+    .btn{display:inline-flex;align-items:center;justify-content:center;width:100%;height:48px;border:0;border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),#4f46e5);color:#fff;font-weight:700;cursor:pointer}
     .btn:disabled{opacity:.5;cursor:not-allowed}
-    .helper{color:var(--muted);font-size:13px}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-    .srcline{font-size:12px;color:#9fb0c7}
+    .helper{color:var(--muted);font-size:13px;text-align:center}
   </style>
 </head>
 <body>
@@ -30,31 +39,27 @@
       <div class="qr"><img id="qr" alt="QR 이미지" decoding="async" referrerpolicy="no-referrer" /></div>
       <button class="btn" id="dl" type="button" disabled>QR 다운로드하기</button>
       <div class="helper" id="msg">QR 이미지 주소를 불러오는 중…</div>
-      <div class="srcline mono" id="srcline"></div>
     </section>
   </main>
 
   <script>
-  // QR-MIN v1.2 (robust defaults + visible src)
   (function(){
     const img = document.getElementById('qr');
     const dl  = document.getElementById('dl');
     const msg = document.getElementById('msg');
-    const srcLine = document.getElementById('srcline');
     const p   = new URLSearchParams(location.search);
 
-    // 1) 기본 파일명: 현재 폴더의 DC-251107-BUKGUJH_QR.png 를 자동 시도
-    const basePath = location.pathname.replace(/[^\/]*$/, '');
-    const defaultSrc = location.origin + basePath + 'DC-251107-BUKGUJH_QR.png';
+    // 기본 QR 파일명은 qr.png
+    const basePath = location.pathname.replace(/[^\\/]*$/, '');
+    const defaultSrc = location.origin + basePath + 'qr.png';
 
-    // 2) ?qr= 가 있으면 우선 사용 (퍼센트 인코딩 대응)
+    // ?qr= 붙으면 그걸 우선 사용
     const raw = p.get('qr');
     const chosen = raw ? decodeURIComponent(raw) : defaultSrc;
 
     function setSrc(u){
       const buster = (u.includes('?') ? '&' : '?') + 'v=' + Date.now();
       img.src = u + buster;
-      srcLine.textContent = '소스: ' + u; // 보이는 디버그 라인
     }
 
     img.onload = function(){
@@ -63,12 +68,12 @@
     };
     img.onerror = function(){
       dl.disabled = true;
-      msg.innerHTML = 'QR 이미지를 불러오지 못했습니다. <br>① 파일명/대소문자 확인 ② 경로 확인 ③ 잠시 후 새로고침 (CDN 캐시)';
+      msg.innerHTML = 'QR 이미지를 불러오지 못했습니다.<br>파일명 또는 경로를 확인해주세요.';
     };
 
     dl.onclick = function(){
       const a = document.createElement('a');
-      a.href = img.src; // cache-busted url
+      a.href = img.src;
       a.download = 'qr.png';
       document.body.appendChild(a); a.click(); a.remove();
     };
